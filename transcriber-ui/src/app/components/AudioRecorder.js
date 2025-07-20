@@ -8,6 +8,7 @@ export default function AudioRecorder({ onTranscriptionComplete }) {
     audioBlob,
     error,
     isProcessing,
+    setIsRecording,
     startRecording,
     stopRecording,
     resetRecording,
@@ -17,8 +18,10 @@ export default function AudioRecorder({ onTranscriptionComplete }) {
   const handleStartStop = () => {
     if(!isRecording) {
       startRecording()
+      setIsRecording(true);
     } else {
       stopRecording();
+      setIsRecording(false);
     }
   };
 

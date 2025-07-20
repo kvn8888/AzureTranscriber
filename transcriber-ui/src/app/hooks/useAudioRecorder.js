@@ -91,6 +91,7 @@ export function useAudioRecorder() {
     stopRecording,
     resetRecording,
     cleanup,
-    setIsProcessing
+    setIsProcessing, 
+    setIsRecording
   };
 }
