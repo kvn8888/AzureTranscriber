@@ -1,18 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default function TranscribedText() {
   const [isHovered, setIsHovered] = useState(false);
   const [showCopied, setShowCopied] = useState(false);
+  const textContentRef = useRef(null);
 
   const handleCopy = async () => {
     try {
-      // For now, we'll copy placeholder text since actual transcription will be implemented later
-      const textToCopy = "Sample transcribed text content";
-      await navigator.clipboard.writeText(textToCopy);
-      setShowCopied(true);
-      setTimeout(() => setShowCopied(false), 2000);
+      // Copy the actual transcribed text content from the div
+      const textToCopy = textContentRef.current?.textContent || '';
+      if (textToCopy.trim()) {
+        await navigator.clipboard.writeText(textToCopy);
+        setShowCopied(true);
+        setTimeout(() => setShowCopied(false), 2000);
+      }
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -28,8 +31,12 @@ export default function TranscribedText() {
         <div className="text-gray-500 dark:text-gray-400 text-sm mb-4">
           Transcribed Text
         </div>
-        <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap overflow-y-auto max-h-[350px]">
-          {/* Transcribed text will be displayed here */}
+        <div 
+          ref={textContentRef}
+          className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap overflow-y-auto max-h-[350px]"
+        >
+          {/* Sample transcribed text for demonstration */}
+          Sample transcribed text content will appear here. This is placeholder text to demonstrate the hover and copy functionality.
         </div>
         
         {/* Copy button that appears on hover */}
@@ -37,7 +44,7 @@ export default function TranscribedText() {
           onClick={handleCopy}
           className={`
             absolute top-4 right-4 p-2 rounded-lg transition-all duration-200
-            ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'}
+            ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'}
             ${showCopied ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'}
           `}
           title={showCopied ? 'Copied!' : 'Copy to clipboard'}
