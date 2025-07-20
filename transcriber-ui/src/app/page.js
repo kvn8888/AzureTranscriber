@@ -1,6 +1,5 @@
 import TranscribedText from "./components/TranscribedText";
-import RecordButton from "./components/RecordButton";
-import TranscribeButton from "./components/TranscribeButton";
+import AudioRecorder from "./components/AudioRecorder";
 
 export default function Home() {
   return (
@@ -18,9 +17,8 @@ export default function Home() {
         <div className="space-y-6">
           <TranscribedText />
           
-          <div className="flex gap-4 justify-center">
-            <RecordButton />
-            <TranscribeButton />
+          <div className="flex justify-center">
+            <AudioRecorder />
           </div>
         </div>
       </div>
