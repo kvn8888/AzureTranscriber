@@ -45,7 +45,6 @@ export function useAudioRecorder() {
         const blob = new Blob(chunksRef.current, {type: 'audio/webm'})
         setAudioBlob(blob);
         setIsRecording(false);
-        setIsProcessing(false);
       }
 
       setIsRecording(true);
@@ -58,18 +57,29 @@ export function useAudioRecorder() {
   }, []);
 
   const stopRecording = useCallback(() => {
-    // TODO: Stop MediaRecorder
-    // TODO: Handle cleanup
-
+    if(mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+    }
 
   }, []);
 
   const resetRecording = useCallback(() => {
-    // TODO: Reset all state
+    setAudioBlob(null);
+    setError(null);
+    setIsProcessing(false);
+    setIsRecording(false);
+    chunksRef.current = [];
+    mediaRecorderRef.current = null;
+    streamRef.current = null;
   }, []);
 
   const cleanup = useCallback(() => {
-    // TODO: Stop all tracks and cleanup
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    mediaRecorderRef.current = null;
+    chunksRef.current = [];
   }, []);
 
   return {
