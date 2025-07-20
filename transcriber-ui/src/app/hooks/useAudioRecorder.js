@@ -49,13 +49,11 @@ export function useAudioRecorder() {
       }
 
       setIsRecording(true);
-      setIsProcessing(true);
 
       mediaRecorder.start()
     } catch (err) {
       setError(err);
       setIsRecording(false);
-      setIsProcessing(false);
     }
   }, []);
 
